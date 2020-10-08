@@ -271,6 +271,39 @@ const renderLayer = function (pageDiv, fontResObj, drawParamResObj, multiMediaRe
             pageDiv.appendChild(svg);
         }
     }
+    const pageBlockArray = layer['ofd:PageBlock'];
+    if (pageBlockArray) {
+        for (const pageBlock of pageBlockArray) {
+            const textObjects = pageBlock['ofd:TextObject'];
+            let textObjectArray = [];
+            textObjectArray = textObjectArray.concat(textObjects);
+            for (const textObject of textObjectArray) {
+                if (textObject) {
+                    let svg = renderTextObject(fontResObj, textObject, fillColor, strokeColor);
+                    pageDiv.appendChild(svg);
+                }
+            }
+            const imageObjects = pageBlock['ofd:ImageObject'];
+            let imageObjectArray = [];
+            imageObjectArray = imageObjectArray.concat(imageObjects);
+            for (const imageObject of imageObjectArray) {
+                if (imageObject) {
+                    let element = renderImageObject(pageDiv.style.width, pageDiv.style.height, multiMediaResObj, imageObject)
+                    pageDiv.appendChild(element);
+                }
+            }
+            const pathObjects = pageBlock['ofd:PathObject'];
+            let pathObjectArray = [];
+            pathObjectArray = pathObjectArray.concat(pathObjects);
+            for (const pathObject of pathObjectArray) {
+                if (pathObject) {
+                    let svg = renderPathObject(drawParamResObj, pathObject, fillColor, strokeColor, lineWith, isStampAnnot)
+                    pageDiv.appendChild(svg);
+                }
+            }
+        }
+    }
+ 
 }
 
 export const renderImageObject = function (pageWidth, pageHeight, multiMediaResObj, imageObject){
