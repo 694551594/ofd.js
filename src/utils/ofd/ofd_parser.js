@@ -247,7 +247,15 @@ const getFont = async function (res) {
     let fontResObj = {};
     if (fonts) {
         let fontArray = [];
-        fontArray = fontArray.concat(fonts['ofd:Font']);
+        const _fonts = fonts['ofd:Font'];
+        if (_fonts) {
+            fontArray = fontArray.concat(_fonts);
+        } else {
+            for (const _fonts of fonts) {
+                const _font = _fonts['ofd:Font'];
+                fontArray = fontArray.concat(_font);
+            }
+        }
         for (const font of fontArray) {
             if (font) {
                 if (font['@_FamilyName']) {

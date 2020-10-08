@@ -353,6 +353,12 @@ export const renderTextObject = function (fontResObj, textObject, defaultFillCol
         if (alpha) {
             defaultFillOpacity = alpha>1? alpha/255:alpha;
         }
+        if (defaultFillOpacity === 1) {
+            let alpha = textObject['@_Alpha'];
+            if (alpha) {
+                defaultFillOpacity = alpha>1? alpha/255:alpha;
+            }
+        }
     }
     for (const textCodePoint of textCodePointList) {
         if (textCodePoint && !isNaN(textCodePoint.x)) {
@@ -431,6 +437,12 @@ export const renderPathObject = function (drawParamResObj, pathObject, defaultFi
     if (pathObject['@_Fill'] != 'false') {
         fillStyle = `fill:${isStampAnnot ? 'none' : defaultFillColor ? defaultFillColor : 'none'};`;
     }
+    let defaultFillOpacity = 1;
+    const alpha = pathObject['@_Alpha'];
+    if (alpha) {
+        defaultFillOpacity = alpha>1? alpha/255:alpha;
+    }
+    path.setAttribute('fill-opacity', defaultFillOpacity);
     path.setAttribute('style', `${strokeStyle};${fillStyle}`)
     let d = '';
     for (const point of points) {

@@ -1,4 +1,4 @@
 module.exports = {
-    publicPath: '/ofd',
+    publicPath: './',
     lintOnSave: false
 }
